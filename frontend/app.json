@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Smart Plant",
+    "slug": "smart-plant-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#EAF8EF"
+      }
+    },
+    "extra": {
+      "apiUrl": "http://localhost:5000"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
