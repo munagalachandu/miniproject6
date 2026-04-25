@@ -7,7 +7,16 @@ import { getSensorData } from "../api/plantApi";
 import { colors } from "../theme/colors";
 
 const screenWidth = Dimensions.get("window").width;
+const chartWidth = Math.max(250, screenWidth - 136);
 const ranges = ["Day", "Week", "Month"];
+const calendarDays = [
+  { date: "21", day: "Mon" },
+  { date: "22", day: "Tue" },
+  { date: "23", day: "Wed" },
+  { date: "24", day: "Thu" },
+  { date: "25", day: "Fri" },
+  { date: "26", day: "Sat" }
+];
 
 function buildDemoData() {
   return Array.from({ length: 8 }).map((_, index) => ({
@@ -68,7 +77,7 @@ export default function GraphScreen() {
         </View>
         <LineChart
           data={chartData(key)}
-          width={screenWidth - 60}
+          width={chartWidth}
           height={214}
           bezier
           yAxisSuffix={suffix}
@@ -112,6 +121,15 @@ export default function GraphScreen() {
         ))}
       </View>
 
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.calendarStrip}>
+        {calendarDays.map((item, index) => (
+          <View key={item.date} style={[styles.dayChip, index === 4 && styles.dayChipActive]}>
+            <Text style={[styles.dayDate, index === 4 && styles.dayDateActive]}>{item.date}</Text>
+            <Text style={[styles.dayName, index === 4 && styles.dayNameActive]}>{item.day}</Text>
+          </View>
+        ))}
+      </ScrollView>
+
       <View style={styles.summaryRail}>
         <View style={styles.summaryLarge}>
           <View style={styles.summaryBlob} />
@@ -128,6 +146,29 @@ export default function GraphScreen() {
             <Text style={styles.summarySmallValue}>{Math.round(slicedReadings[slicedReadings.length - 1]?.humidity || 0)}%</Text>
           </View>
         </View>
+      </View>
+
+      <View style={styles.schedulePanel}>
+        <View style={styles.scheduleHeader}>
+          <Text style={styles.scheduleTitle}>Care Calendar</Text>
+          <View style={styles.calendarButton}>
+            <Ionicons name="calendar" size={17} color={colors.green800} />
+          </View>
+        </View>
+        {[
+          ["08:15", "Check moisture trend", "leaf"],
+          ["12:30", "Shade review", "sunny"],
+          ["17:45", "Tank refill check", "water"]
+        ].map(([time, title, icon]) => (
+          <View key={title} style={styles.scheduleItem}>
+            <Text style={styles.scheduleTime}>{time}</Text>
+            <View style={styles.scheduleDot}>
+              <Ionicons name={icon} size={14} color={colors.green800} />
+            </View>
+            <Text style={styles.scheduleText}>{title}</Text>
+            <Ionicons name="arrow-forward" size={15} color={colors.gray500} />
+          </View>
+        ))}
       </View>
 
       {renderChart(
@@ -161,9 +202,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background
   },
   content: {
-    padding: 18,
-    paddingTop: 54,
-    paddingBottom: 116
+    padding: 16,
+    paddingTop: 44,
+    paddingBottom: 34
   },
   header: {
     marginBottom: 18
@@ -189,6 +230,45 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 14,
     elevation: 2
+  },
+  calendarStrip: {
+    gap: 10,
+    paddingTop: 14,
+    paddingBottom: 2
+  },
+  dayChip: {
+    width: 58,
+    height: 70,
+    borderRadius: 22,
+    backgroundColor: colors.white,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: colors.green900,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 2
+  },
+  dayChipActive: {
+    backgroundColor: colors.green800,
+    borderTopRightRadius: 8
+  },
+  dayDate: {
+    color: colors.gray900,
+    fontWeight: "900",
+    fontSize: 18
+  },
+  dayDateActive: {
+    color: colors.white
+  },
+  dayName: {
+    color: colors.gray500,
+    fontWeight: "800",
+    fontSize: 11,
+    marginTop: 3
+  },
+  dayNameActive: {
+    color: colors.green200
   },
   toggle: {
     flex: 1,
@@ -265,6 +345,63 @@ const styles = StyleSheet.create({
   },
   chart: {
     borderRadius: 18
+  },
+  schedulePanel: {
+    backgroundColor: colors.white,
+    borderRadius: 28,
+    borderTopLeftRadius: 8,
+    padding: 16,
+    marginTop: 16,
+    shadowColor: colors.green900,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.07,
+    shadowRadius: 18,
+    elevation: 3
+  },
+  scheduleHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8
+  },
+  scheduleTitle: {
+    color: colors.gray900,
+    fontSize: 18,
+    fontWeight: "900"
+  },
+  calendarButton: {
+    width: 38,
+    height: 38,
+    borderRadius: 15,
+    backgroundColor: colors.green100,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  scheduleItem: {
+    minHeight: 54,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray200,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10
+  },
+  scheduleTime: {
+    width: 48,
+    color: colors.green800,
+    fontWeight: "900"
+  },
+  scheduleDot: {
+    width: 30,
+    height: 30,
+    borderRadius: 12,
+    backgroundColor: colors.green100,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  scheduleText: {
+    flex: 1,
+    color: colors.gray900,
+    fontWeight: "800"
   },
   summaryRail: {
     flexDirection: "row",

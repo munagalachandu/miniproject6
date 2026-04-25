@@ -98,6 +98,8 @@ export default function DashboardScreen() {
         </View>
       </LinearGradient>
 
+      <InsightCard insights={insights} featured />
+
       <PlantAvatar status={latest.status} />
 
       <View style={styles.sectionHeader}>
@@ -159,8 +161,6 @@ export default function DashboardScreen() {
           <Text style={styles.miniPanelText}>Signal</Text>
         </View>
       </View>
-
-      <InsightCard insights={insights} />
     </ScrollView>
   );
 }
@@ -171,9 +171,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background
   },
   content: {
-    padding: 18,
-    paddingTop: 54,
-    paddingBottom: 116
+    padding: 16,
+    paddingTop: 44,
+    paddingBottom: 34
   },
   header: {
     flexDirection: "row",
