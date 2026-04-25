@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import MetricCard from "../components/MetricCard";
+import CircularGauge from "../components/CircularGauge";
+import SensorTile from "../components/SensorTile";
 import PlantAvatar from "../components/PlantAvatar";
 import InsightCard from "../components/InsightCard";
 import { getSensorData } from "../api/plantApi";
@@ -44,22 +45,10 @@ export default function DashboardScreen() {
     return () => clearInterval(timer);
   }, []);
 
-  const metrics = useMemo(
-    () => [
-      {
-        title: "Soil Moisture",
-        value: Math.round(latest.moisture),
-        unit: "%",
-        icon: "leaf",
-        accent: colors.green100,
-        primary: true
-      },
-      { title: "Temperature", value: Math.round(latest.temp), unit: " C", icon: "thermometer", accent: "#FFE4DF" },
-      { title: "Humidity", value: Math.round(latest.humidity), unit: "%", icon: "water", accent: "#DDEBFF" },
-      { title: "Tank Level", value: Math.round(latest.water_level), unit: "%", icon: "beaker", accent: "#FFF0C2" }
-    ],
-    [latest]
-  );
+  const temp = Math.round(latest.temp);
+  const humidity = Math.round(latest.humidity);
+  const moisture = Math.round(latest.moisture);
+  const waterLevel = Math.round(latest.water_level);
 
   return (
     <ScrollView
@@ -88,6 +77,8 @@ export default function DashboardScreen() {
       </View>
 
       <LinearGradient colors={[colors.green850, colors.green700]} style={styles.hero}>
+        <View style={styles.heroBubbleLarge} />
+        <View style={styles.heroBubbleSmall} />
         <View style={styles.heroTop}>
           <View style={styles.statusPill}>
             <View style={styles.pulseDot} />
@@ -114,10 +105,59 @@ export default function DashboardScreen() {
         <Text style={styles.sectionMeta}>Auto refresh</Text>
       </View>
 
-      <View style={styles.grid}>
-        {metrics.map((metric) => (
-          <MetricCard key={metric.title} {...metric} />
-        ))}
+      <View style={styles.panelMosaic}>
+        <View style={styles.gaugePanel}>
+          <View style={styles.gaugeHeader}>
+            <View>
+              <Text style={styles.panelEyebrow}>Priority</Text>
+              <Text style={styles.panelTitle}>Soil Moisture</Text>
+            </View>
+            <View style={styles.leafBadge}>
+              <Ionicons name="leaf" size={18} color={colors.white} />
+            </View>
+          </View>
+          <View style={styles.gaugeBody}>
+            <CircularGauge value={moisture} label="Moisture" tint={colors.green700} />
+            <View style={styles.gaugeNote}>
+              <Text style={styles.gaugeNoteValue}>{latest.status}</Text>
+              <Text style={styles.gaugeNoteText}>Backend health status</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.sideStack}>
+          <SensorTile title="Temperature" value={temp} unit=" C" icon="thermometer" accent="#FFE4DF" compact />
+          <SensorTile title="Humidity" value={humidity} unit="%" icon="water" accent="#DDEBFF" compact />
+        </View>
+      </View>
+
+      <LinearGradient colors={["#FFF8DF", "#F4C95D"]} style={styles.tankPanel}>
+        <View style={styles.tankSlab} />
+        <View>
+          <Text style={styles.tankLabel}>Tank Reserve</Text>
+          <Text style={styles.tankValue}>{waterLevel}%</Text>
+          <Text style={styles.tankHint}>Water level available</Text>
+        </View>
+        <View style={styles.tankIcon}>
+          <Ionicons name="beaker" size={26} color={colors.green900} />
+        </View>
+      </LinearGradient>
+
+      <View style={styles.motionRow}>
+        <View style={styles.wavePanel}>
+          <View style={styles.waveBarTall} />
+          <View style={styles.waveBarMid} />
+          <View style={styles.waveBarShort} />
+          <View>
+            <Text style={styles.waveTitle}>Pulse</Text>
+            <Text style={styles.waveText}>Live readings every few seconds</Text>
+          </View>
+        </View>
+        <View style={styles.miniPanel}>
+          <Ionicons name="radio" size={22} color={colors.green700} />
+          <Text style={styles.miniPanelValue}>ON</Text>
+          <Text style={styles.miniPanelText}>Signal</Text>
+        </View>
       </View>
 
       <InsightCard insights={insights} />
@@ -166,6 +206,7 @@ const styles = StyleSheet.create({
     elevation: 3
   },
   hero: {
+    position: "relative",
     padding: 20,
     borderRadius: 26,
     minHeight: 210,
@@ -174,7 +215,30 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.18,
     shadowRadius: 24,
-    elevation: 8
+    elevation: 8,
+    overflow: "hidden"
+  },
+  heroBubbleLarge: {
+    position: "absolute",
+    right: -42,
+    bottom: -48,
+    width: 164,
+    height: 164,
+    borderRadius: 82,
+    backgroundColor: "rgba(255,255,255,0.08)"
+  },
+  heroBubbleSmall: {
+    position: "absolute",
+    right: 62,
+    top: 70,
+    width: 38,
+    height: 38,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 4,
+    backgroundColor: "rgba(244,201,93,0.26)",
+    transform: [{ rotate: "24deg" }]
   },
   heroTop: {
     flexDirection: "row",
@@ -256,10 +320,179 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: 12
   },
-  grid: {
+  panelMosaic: {
     flexDirection: "row",
-    flexWrap: "wrap",
+    gap: 12
+  },
+  gaugePanel: {
+    flex: 1.15,
+    backgroundColor: colors.white,
+    borderRadius: 28,
+    borderTopRightRadius: 54,
+    padding: 16,
+    shadowColor: colors.green900,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.08,
+    shadowRadius: 18,
+    elevation: 4
+  },
+  gaugeHeader: {
+    flexDirection: "row",
     justifyContent: "space-between",
-    rowGap: 14
+    alignItems: "center",
+    marginBottom: 12
+  },
+  panelEyebrow: {
+    color: colors.green700,
+    fontSize: 11,
+    fontWeight: "900",
+    textTransform: "uppercase"
+  },
+  panelTitle: {
+    color: colors.gray900,
+    fontSize: 17,
+    fontWeight: "900",
+    marginTop: 3
+  },
+  leafBadge: {
+    width: 38,
+    height: 38,
+    borderRadius: 14,
+    backgroundColor: colors.green700,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  gaugeBody: {
+    alignItems: "center"
+  },
+  gaugeNote: {
+    alignSelf: "stretch",
+    borderRadius: 18,
+    backgroundColor: colors.green100,
+    padding: 12,
+    marginTop: 12
+  },
+  gaugeNoteValue: {
+    color: colors.green900,
+    fontSize: 18,
+    fontWeight: "900",
+    textTransform: "capitalize"
+  },
+  gaugeNoteText: {
+    color: colors.gray700,
+    fontSize: 12,
+    fontWeight: "700",
+    marginTop: 3
+  },
+  sideStack: {
+    flex: 0.85,
+    gap: 12
+  },
+  tankPanel: {
+    minHeight: 126,
+    borderRadius: 28,
+    borderTopLeftRadius: 8,
+    padding: 18,
+    marginTop: 14,
+    overflow: "hidden",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  tankSlab: {
+    position: "absolute",
+    right: 76,
+    top: -18,
+    width: 52,
+    height: 170,
+    backgroundColor: "rgba(255,255,255,0.24)",
+    transform: [{ rotate: "18deg" }]
+  },
+  tankLabel: {
+    color: colors.green900,
+    fontWeight: "900",
+    fontSize: 15
+  },
+  tankValue: {
+    color: colors.green900,
+    fontWeight: "900",
+    fontSize: 38,
+    marginTop: 6
+  },
+  tankHint: {
+    color: colors.gray700,
+    fontWeight: "700"
+  },
+  tankIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 24,
+    backgroundColor: "rgba(255,255,255,0.55)",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  motionRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 14
+  },
+  wavePanel: {
+    flex: 1,
+    minHeight: 104,
+    borderRadius: 26,
+    borderBottomRightRadius: 8,
+    backgroundColor: colors.white,
+    padding: 15,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: 8
+  },
+  waveBarTall: {
+    width: 12,
+    height: 58,
+    borderRadius: 6,
+    backgroundColor: colors.green800
+  },
+  waveBarMid: {
+    width: 12,
+    height: 42,
+    borderRadius: 6,
+    backgroundColor: colors.green500
+  },
+  waveBarShort: {
+    width: 12,
+    height: 28,
+    borderRadius: 6,
+    backgroundColor: colors.green200
+  },
+  waveTitle: {
+    color: colors.gray900,
+    fontWeight: "900",
+    fontSize: 16
+  },
+  waveText: {
+    color: colors.gray700,
+    fontSize: 12,
+    lineHeight: 17,
+    marginTop: 3
+  },
+  miniPanel: {
+    width: 96,
+    borderRadius: 26,
+    borderTopLeftRadius: 8,
+    backgroundColor: colors.green100,
+    padding: 15,
+    justifyContent: "center"
+  },
+  miniPanelValue: {
+    color: colors.green900,
+    fontSize: 22,
+    fontWeight: "900",
+    marginTop: 8
+  },
+  miniPanelText: {
+    color: colors.gray700,
+    fontWeight: "800",
+    fontSize: 12
   }
 });

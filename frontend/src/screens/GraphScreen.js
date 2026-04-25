@@ -51,8 +51,10 @@ export default function GraphScreen() {
   }
 
   function renderChart(title, key, suffix, color, icon) {
+    const value = slicedReadings[slicedReadings.length - 1]?.[key] ?? 0;
+
     return (
-      <View style={styles.chartCard}>
+      <View style={[styles.chartCard, title === "Moisture" && styles.featureChart, title === "Humidity" && styles.softChart]}>
         <View style={styles.chartHeader}>
           <View style={styles.chartTitleWrap}>
             <View style={[styles.chartIcon, { backgroundColor: color.soft }]}>
@@ -60,7 +62,9 @@ export default function GraphScreen() {
             </View>
             <Text style={styles.chartTitle}>{title}</Text>
           </View>
-          <Text style={styles.chartMeta}>{range}</Text>
+          <View style={styles.chartValuePill}>
+            <Text style={styles.chartValue}>{Math.round(value)}{suffix}</Text>
+          </View>
         </View>
         <LineChart
           data={chartData(key)}
@@ -106,6 +110,24 @@ export default function GraphScreen() {
             <Text style={[styles.toggleText, range === item && styles.toggleTextActive]}>{item}</Text>
           </TouchableOpacity>
         ))}
+      </View>
+
+      <View style={styles.summaryRail}>
+        <View style={styles.summaryLarge}>
+          <View style={styles.summaryBlob} />
+          <Text style={styles.summaryLabel}>Moisture Flow</Text>
+          <Text style={styles.summaryValue}>{Math.round(slicedReadings[slicedReadings.length - 1]?.moisture || 0)}%</Text>
+        </View>
+        <View style={styles.summaryStack}>
+          <View style={styles.summarySmall}>
+            <Ionicons name="thermometer" size={18} color={colors.coral} />
+            <Text style={styles.summarySmallValue}>{Math.round(slicedReadings[slicedReadings.length - 1]?.temp || 0)} C</Text>
+          </View>
+          <View style={[styles.summarySmall, styles.summarySmallAlt]}>
+            <Ionicons name="water" size={18} color={colors.blue} />
+            <Text style={styles.summarySmallValue}>{Math.round(slicedReadings[slicedReadings.length - 1]?.humidity || 0)}%</Text>
+          </View>
+        </View>
       </View>
 
       {renderChart(
@@ -196,6 +218,14 @@ const styles = StyleSheet.create({
     shadowRadius: 18,
     elevation: 3
   },
+  featureChart: {
+    borderTopRightRadius: 56,
+    borderBottomLeftRadius: 10
+  },
+  softChart: {
+    borderTopLeftRadius: 56,
+    borderBottomRightRadius: 10
+  },
   chartHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -220,11 +250,75 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     color: colors.gray900
   },
-  chartMeta: {
-    color: colors.green700,
+  chartValuePill: {
+    minWidth: 58,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: colors.gray100,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 10
+  },
+  chartValue: {
+    color: colors.green800,
     fontWeight: "900"
   },
   chart: {
     borderRadius: 18
+  },
+  summaryRail: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 16
+  },
+  summaryLarge: {
+    flex: 1,
+    minHeight: 142,
+    borderRadius: 28,
+    borderTopRightRadius: 8,
+    backgroundColor: colors.green800,
+    padding: 17,
+    overflow: "hidden",
+    justifyContent: "space-between"
+  },
+  summaryBlob: {
+    position: "absolute",
+    right: -30,
+    top: -30,
+    width: 108,
+    height: 108,
+    borderRadius: 54,
+    backgroundColor: "rgba(255,255,255,0.12)"
+  },
+  summaryLabel: {
+    color: colors.green200,
+    fontWeight: "900",
+    fontSize: 14
+  },
+  summaryValue: {
+    color: colors.white,
+    fontSize: 42,
+    fontWeight: "900"
+  },
+  summaryStack: {
+    width: 118,
+    gap: 12
+  },
+  summarySmall: {
+    flex: 1,
+    borderRadius: 24,
+    borderBottomLeftRadius: 6,
+    backgroundColor: colors.white,
+    padding: 13,
+    justifyContent: "space-between"
+  },
+  summarySmallAlt: {
+    borderBottomLeftRadius: 24,
+    borderTopRightRadius: 6
+  },
+  summarySmallValue: {
+    color: colors.gray900,
+    fontSize: 18,
+    fontWeight: "900"
   }
 });

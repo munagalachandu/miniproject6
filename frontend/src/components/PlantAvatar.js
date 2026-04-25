@@ -26,10 +26,11 @@ const avatarMap = {
 
 export default function PlantAvatar({ status }) {
   const scale = useRef(new Animated.Value(1)).current;
+  const bob = useRef(new Animated.Value(0)).current;
   const avatar = avatarMap[status] || avatarMap.neutral;
 
   useEffect(() => {
-    const animation = Animated.loop(
+    const pulse = Animated.loop(
       Animated.sequence([
         Animated.timing(scale, {
           toValue: 1.06,
@@ -43,14 +44,34 @@ export default function PlantAvatar({ status }) {
         })
       ])
     );
+    const float = Animated.loop(
+      Animated.sequence([
+        Animated.timing(bob, {
+          toValue: -8,
+          duration: 1200,
+          useNativeDriver: true
+        }),
+        Animated.timing(bob, {
+          toValue: 0,
+          duration: 1200,
+          useNativeDriver: true
+        })
+      ])
+    );
 
-    animation.start();
-    return () => animation.stop();
-  }, [scale]);
+    pulse.start();
+    float.start();
+    return () => {
+      pulse.stop();
+      float.stop();
+    };
+  }, [bob, scale]);
 
   return (
     <LinearGradient colors={avatar.gradient} style={styles.wrap}>
-      <Animated.View style={[styles.emojiBubble, { transform: [{ scale }] }]}>
+      <View style={styles.orbitOne} />
+      <View style={styles.orbitTwo} />
+      <Animated.View style={[styles.emojiBubble, { transform: [{ scale }, { translateY: bob }] }]}>
         <Text style={styles.emoji}>{avatar.emoji}</Text>
       </Animated.View>
       <View style={styles.copyWrap}>
@@ -71,7 +92,26 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginTop: 16,
     borderWidth: 1,
-    borderColor: colors.gray200
+    borderColor: colors.gray200,
+    overflow: "hidden"
+  },
+  orbitOne: {
+    position: "absolute",
+    right: -22,
+    top: -24,
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: "rgba(35,122,86,0.08)"
+  },
+  orbitTwo: {
+    position: "absolute",
+    right: 40,
+    bottom: -18,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: "rgba(244,201,93,0.18)"
   },
   emojiBubble: {
     width: 72,
