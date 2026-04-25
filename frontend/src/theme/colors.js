@@ -1,17 +1,24 @@
 export const colors = {
-  background: "#F4FAF5",
+  background: "#EEF3F0",
+  surface: "#F8FAF8",
   white: "#FFFFFF",
+  black: "#0A0F0C",
   green900: "#103D2D",
+  green850: "#0F4A34",
   green800: "#18563F",
   green700: "#237A56",
   green500: "#45B97C",
   green200: "#C8F1D8",
+  green100: "#E7F7ED",
   mint: "#EAF8EF",
   yellow: "#F4C95D",
   coral: "#FF8A7A",
   blue: "#68A7F7",
+  lavender: "#B7A7F7",
   gray900: "#1E2B25",
   gray700: "#52625A",
   gray500: "#8B9A92",
-  gray200: "#E5ECE7"
+  gray300: "#D6E0DA",
+  gray200: "#E5ECE7",
+  gray100: "#F1F5F2"
 };

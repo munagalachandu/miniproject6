@@ -7,14 +7,20 @@ export default function InsightCard({ insights }) {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Ionicons name="sparkles" size={20} color={colors.yellow} />
-        <Text style={styles.title}>Insights</Text>
+        <View style={styles.iconBadge}>
+          <Ionicons name="sparkles" size={18} color={colors.green800} />
+        </View>
+        <View>
+          <Text style={styles.title}>Care Insights</Text>
+          <Text style={styles.subtitle}>Rule based recommendations</Text>
+        </View>
       </View>
 
       {insights.map((item) => (
-        <Text key={item} style={styles.item}>
-          {item}
-        </Text>
+        <View key={item} style={styles.insightRow}>
+          <View style={styles.dot} />
+          <Text style={styles.item}>{item}</Text>
+        </View>
       ))}
 
       <View style={styles.factBox}>
@@ -30,9 +36,9 @@ export default function InsightCard({ insights }) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
-    borderRadius: 18,
+    borderRadius: 20,
     padding: 18,
-    marginTop: 18,
+    marginTop: 16,
     shadowColor: colors.green900,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.07,
@@ -42,27 +48,55 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    marginBottom: 12
+    gap: 10,
+    marginBottom: 14
+  },
+  iconBadge: {
+    width: 42,
+    height: 42,
+    borderRadius: 15,
+    backgroundColor: colors.green100,
+    alignItems: "center",
+    justifyContent: "center"
   },
   title: {
     fontSize: 18,
-    fontWeight: "800",
+    fontWeight: "900",
     color: colors.gray900
   },
+  subtitle: {
+    color: colors.gray500,
+    fontSize: 12,
+    marginTop: 2
+  },
+  insightRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+    marginBottom: 9
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.green500,
+    marginTop: 7
+  },
   item: {
+    flex: 1,
     color: colors.gray700,
-    lineHeight: 21,
-    marginBottom: 8
+    lineHeight: 21
   },
   factBox: {
     marginTop: 8,
     padding: 14,
-    borderRadius: 16,
-    backgroundColor: colors.mint
+    borderRadius: 18,
+    backgroundColor: colors.gray100,
+    borderWidth: 1,
+    borderColor: colors.gray200
   },
   factTitle: {
-    fontWeight: "800",
+    fontWeight: "900",
     color: colors.green800,
     marginBottom: 6
   },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -60,14 +60,18 @@ export default function PlantSetupScreen() {
   }
 
   return (
-    <View style={styles.screen}>
-      <LinearGradient colors={[colors.mint, colors.green200]} style={styles.header}>
-        <Ionicons name="leaf" size={42} color={colors.green800} />
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <LinearGradient colors={[colors.green850, colors.green700]} style={styles.header}>
+        <View style={styles.headerIcon}>
+          <Ionicons name="leaf" size={28} color={colors.white} />
+        </View>
         <Text style={styles.title}>Plant Setup</Text>
-        <Text style={styles.subtitle}>Connect a plant profile to the sensor device in MongoDB.</Text>
+        <Text style={styles.subtitle}>Connect the app to your plant device and send test readings.</Text>
       </LinearGradient>
 
       <View style={styles.form}>
+        <Text style={styles.formTitle}>Device Profile</Text>
+
         <Text style={styles.label}>Plant name</Text>
         <TextInput
           value={plantName}
@@ -97,38 +101,55 @@ export default function PlantSetupScreen() {
           <Text style={styles.secondaryButtonText}>Send Demo Sensor Data</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: colors.background,
-    padding: 20,
-    paddingTop: 58
+    backgroundColor: colors.background
+  },
+  content: {
+    padding: 18,
+    paddingTop: 54,
+    paddingBottom: 116
   },
   header: {
-    borderRadius: 24,
+    borderRadius: 26,
     padding: 22,
-    minHeight: 190,
+    minHeight: 204,
+    justifyContent: "center",
+    shadowColor: colors.green900,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.16,
+    shadowRadius: 24,
+    elevation: 8
+  },
+  headerIcon: {
+    width: 52,
+    height: 52,
+    borderRadius: 18,
+    backgroundColor: "rgba(255,255,255,0.17)",
+    alignItems: "center",
     justifyContent: "center"
   },
   title: {
-    fontSize: 30,
+    fontSize: 31,
     fontWeight: "900",
-    color: colors.green900,
-    marginTop: 12
+    color: colors.white,
+    marginTop: 14
   },
   subtitle: {
-    color: colors.gray700,
+    color: colors.green200,
     lineHeight: 21,
-    marginTop: 8
+    marginTop: 8,
+    fontWeight: "600"
   },
   form: {
-    marginTop: 22,
+    marginTop: 18,
     backgroundColor: colors.white,
-    borderRadius: 20,
+    borderRadius: 22,
     padding: 18,
     shadowColor: colors.green900,
     shadowOffset: { width: 0, height: 8 },
@@ -136,26 +157,32 @@ const styles = StyleSheet.create({
     shadowRadius: 18,
     elevation: 3
   },
+  formTitle: {
+    color: colors.gray900,
+    fontSize: 18,
+    fontWeight: "900",
+    marginBottom: 6
+  },
   label: {
     color: colors.gray700,
     fontWeight: "800",
     marginBottom: 8,
-    marginTop: 10
+    marginTop: 12
   },
   input: {
-    height: 52,
-    borderRadius: 16,
+    height: 54,
+    borderRadius: 18,
     borderWidth: 1,
     borderColor: colors.gray200,
-    backgroundColor: colors.background,
+    backgroundColor: colors.gray100,
     paddingHorizontal: 16,
     color: colors.gray900,
     fontWeight: "700"
   },
   primaryButton: {
-    height: 54,
-    borderRadius: 17,
-    backgroundColor: colors.green700,
+    height: 56,
+    borderRadius: 19,
+    backgroundColor: colors.green800,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
@@ -168,9 +195,9 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   secondaryButton: {
-    height: 54,
-    borderRadius: 17,
-    backgroundColor: colors.mint,
+    height: 56,
+    borderRadius: 19,
+    backgroundColor: colors.green100,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",

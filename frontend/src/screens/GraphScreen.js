@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LineChart } from "react-native-chart-kit";
+import { Ionicons } from "@expo/vector-icons";
 import { getSensorData } from "../api/plantApi";
 import { colors } from "../theme/colors";
 
@@ -49,21 +50,29 @@ export default function GraphScreen() {
     };
   }
 
-  function renderChart(title, key, suffix, color) {
+  function renderChart(title, key, suffix, color, icon) {
     return (
       <View style={styles.chartCard}>
-        <Text style={styles.chartTitle}>{title}</Text>
+        <View style={styles.chartHeader}>
+          <View style={styles.chartTitleWrap}>
+            <View style={[styles.chartIcon, { backgroundColor: color.soft }]}>
+              <Ionicons name={icon} size={18} color={color.solid} />
+            </View>
+            <Text style={styles.chartTitle}>{title}</Text>
+          </View>
+          <Text style={styles.chartMeta}>{range}</Text>
+        </View>
         <LineChart
           data={chartData(key)}
-          width={screenWidth - 64}
-          height={210}
+          width={screenWidth - 60}
+          height={214}
           bezier
           yAxisSuffix={suffix}
           chartConfig={{
             backgroundGradientFrom: colors.white,
             backgroundGradientTo: colors.white,
             decimalPlaces: 0,
-            color: (opacity = 1) => color.replace("1)", `${opacity})`),
+            color: (opacity = 1) => color.rgba.replace("1)", `${opacity})`),
             labelColor: () => colors.gray500,
             propsForDots: {
               r: "4",
@@ -82,8 +91,10 @@ export default function GraphScreen() {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Growth Trends</Text>
-      <Text style={styles.subtitle}>Smooth sensor history for moisture, temperature and humidity.</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Analytics</Text>
+        <Text style={styles.subtitle}>Clean plant trends for every sensor.</Text>
+      </View>
 
       <View style={styles.toggleWrap}>
         {ranges.map((item) => (
@@ -97,9 +108,27 @@ export default function GraphScreen() {
         ))}
       </View>
 
-      {renderChart("Moisture", "moisture", "%", "rgba(69, 185, 124, 1)")}
-      {renderChart("Temperature", "temp", "°", "rgba(255, 138, 122, 1)")}
-      {renderChart("Humidity", "humidity", "%", "rgba(104, 167, 247, 1)")}
+      {renderChart(
+        "Moisture",
+        "moisture",
+        "%",
+        { rgba: "rgba(35, 122, 86, 1)", solid: colors.green700, soft: colors.green100 },
+        "leaf"
+      )}
+      {renderChart(
+        "Temperature",
+        "temp",
+        " C",
+        { rgba: "rgba(255, 138, 122, 1)", solid: colors.coral, soft: "#FFE4DF" },
+        "thermometer"
+      )}
+      {renderChart(
+        "Humidity",
+        "humidity",
+        "%",
+        { rgba: "rgba(104, 167, 247, 1)", solid: colors.blue, soft: "#DDEBFF" },
+        "water"
+      )}
     </ScrollView>
   );
 }
@@ -110,37 +139,44 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background
   },
   content: {
-    padding: 20,
-    paddingTop: 58,
-    paddingBottom: 110
+    padding: 18,
+    paddingTop: 54,
+    paddingBottom: 116
+  },
+  header: {
+    marginBottom: 18
   },
   title: {
-    fontSize: 30,
+    fontSize: 31,
     fontWeight: "900",
-    color: colors.gray900
+    color: colors.black
   },
   subtitle: {
     color: colors.gray700,
-    marginTop: 8,
+    marginTop: 6,
     lineHeight: 21
   },
   toggleWrap: {
     flexDirection: "row",
     backgroundColor: colors.white,
     padding: 6,
-    borderRadius: 18,
-    marginTop: 20,
-    marginBottom: 4
+    borderRadius: 22,
+    marginBottom: 4,
+    shadowColor: colors.green900,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2
   },
   toggle: {
     flex: 1,
-    height: 42,
-    borderRadius: 14,
+    height: 44,
+    borderRadius: 17,
     alignItems: "center",
     justifyContent: "center"
   },
   toggleActive: {
-    backgroundColor: colors.green700
+    backgroundColor: colors.green800
   },
   toggleText: {
     color: colors.gray700,
@@ -151,7 +187,7 @@ const styles = StyleSheet.create({
   },
   chartCard: {
     backgroundColor: colors.white,
-    borderRadius: 18,
+    borderRadius: 22,
     padding: 12,
     marginTop: 16,
     shadowColor: colors.green900,
@@ -160,13 +196,35 @@ const styles = StyleSheet.create({
     shadowRadius: 18,
     elevation: 3
   },
+  chartHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    margin: 8,
+    marginBottom: 4
+  },
+  chartTitleWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10
+  },
+  chartIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center"
+  },
   chartTitle: {
     fontSize: 18,
     fontWeight: "900",
-    color: colors.gray900,
-    margin: 8
+    color: colors.gray900
+  },
+  chartMeta: {
+    color: colors.green700,
+    fontWeight: "900"
   },
   chart: {
-    borderRadius: 16
+    borderRadius: 18
   }
 });
