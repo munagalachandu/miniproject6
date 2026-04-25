@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Animated, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors } from "../theme/colors";
+import { typography } from "../theme/typography";
 
 const avatarMap = {
   happy: {
@@ -134,20 +135,20 @@ const styles = StyleSheet.create({
   },
   eyebrow: {
     color: colors.green700,
-    fontWeight: "900",
+    fontFamily: typography.black,
     fontSize: 12,
     marginBottom: 4,
     textTransform: "uppercase"
   },
   status: {
     fontSize: 24,
-    fontWeight: "900",
+    fontFamily: typography.display,
     color: colors.green900
   },
   copy: {
     color: colors.gray700,
     marginTop: 4,
-    fontWeight: "600",
+    fontFamily: typography.semibold,
     lineHeight: 19
   }
 });

@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
+import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, Inter_800ExtraBold } from "@expo-google-fonts/inter";
+import { SpaceGrotesk_600SemiBold, SpaceGrotesk_700Bold } from "@expo-google-fonts/space-grotesk";
 import DashboardScreen from "./src/screens/DashboardScreen";
 import GraphScreen from "./src/screens/GraphScreen";
 import PlantSetupScreen from "./src/screens/PlantSetupScreen";
 import { colors } from "./src/theme/colors";
+import { typography } from "./src/theme/typography";
 
 const screens = {
   Dashboard: DashboardScreen,
@@ -21,7 +24,20 @@ const navItems = [
 
 export default function App() {
   const [activeScreen, setActiveScreen] = useState("Dashboard");
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    SpaceGrotesk_600SemiBold,
+    SpaceGrotesk_700Bold
+  });
   const ActiveScreen = screens[activeScreen];
+
+  if (!fontsLoaded) {
+    return <View style={styles.appShell} />;
+  }
 
   return (
     <View style={styles.appShell}>
@@ -64,11 +80,11 @@ const styles = StyleSheet.create({
   appShell: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: colors.green900
+    backgroundColor: colors.green950
   },
   sideNav: {
     width: 76,
-    backgroundColor: colors.green900,
+    backgroundColor: colors.green950,
     paddingTop: 38,
     paddingBottom: 24,
     alignItems: "center",
@@ -78,7 +94,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 18,
-    backgroundColor: colors.green700,
+    backgroundColor: colors.green800,
     alignItems: "center",
     justifyContent: "center",
     shadowColor: colors.black,
@@ -95,12 +111,12 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 18,
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "rgba(255,255,255,0.07)",
     alignItems: "center",
     justifyContent: "center"
   },
   navButtonActive: {
-    backgroundColor: colors.green200
+    backgroundColor: colors.green100
   },
   activeDot: {
     position: "absolute",
@@ -122,7 +138,7 @@ const styles = StyleSheet.create({
   },
   sideLabel: {
     color: colors.green200,
-    fontWeight: "900"
+    fontFamily: typography.black
   },
   screenHost: {
     flex: 1,

@@ -3,10 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors } from "../theme/colors";
+import { typography } from "../theme/typography";
 
 export default function MetricCard({ title, value, unit, icon, accent, primary }) {
   const CardShell = primary ? LinearGradient : View;
-  const shellProps = primary ? { colors: [colors.green850, colors.green700] } : {};
+  const shellProps = primary ? { colors: [colors.green800, colors.green500] } : {};
 
   return (
     <CardShell {...shellProps} style={[styles.card, primary && styles.primaryCard]}>
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 13,
     color: colors.gray700,
+    fontFamily: typography.semibold,
     marginBottom: 8
   },
   primaryTitle: {
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 34,
-    fontWeight: "900",
+    fontFamily: typography.display,
     color: colors.gray900
   },
   primaryValue: {
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
   },
   unit: {
     fontSize: 14,
-    fontWeight: "700",
+    fontFamily: typography.bold,
     color: colors.gray500
   },
   primaryUnit: {
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     color: colors.green700,
     fontSize: 11,
-    fontWeight: "700"
+    fontFamily: typography.bold
   },
   primaryCaption: {
     color: colors.green200

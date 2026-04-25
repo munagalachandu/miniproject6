@@ -5,6 +5,7 @@ import { LineChart } from "react-native-chart-kit";
 import { Ionicons } from "@expo/vector-icons";
 import { getSensorData } from "../api/plantApi";
 import { colors } from "../theme/colors";
+import { typography } from "../theme/typography";
 
 const screenWidth = Dimensions.get("window").width;
 const chartWidth = Math.max(250, screenWidth - 136);
@@ -211,11 +212,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 31,
-    fontWeight: "900",
+    fontFamily: typography.display,
     color: colors.black
   },
   subtitle: {
     color: colors.gray700,
+    fontFamily: typography.body,
     marginTop: 6,
     lineHeight: 21
   },
@@ -255,7 +257,7 @@ const styles = StyleSheet.create({
   },
   dayDate: {
     color: colors.gray900,
-    fontWeight: "900",
+    fontFamily: typography.display,
     fontSize: 18
   },
   dayDateActive: {
@@ -263,7 +265,7 @@ const styles = StyleSheet.create({
   },
   dayName: {
     color: colors.gray500,
-    fontWeight: "800",
+    fontFamily: typography.bold,
     fontSize: 11,
     marginTop: 3
   },
@@ -282,7 +284,7 @@ const styles = StyleSheet.create({
   },
   toggleText: {
     color: colors.gray700,
-    fontWeight: "800"
+    fontFamily: typography.bold
   },
   toggleTextActive: {
     color: colors.white
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
   },
   chartTitle: {
     fontSize: 18,
-    fontWeight: "900",
+    fontFamily: typography.heading,
     color: colors.gray900
   },
   chartValuePill: {
@@ -341,7 +343,7 @@ const styles = StyleSheet.create({
   },
   chartValue: {
     color: colors.green800,
-    fontWeight: "900"
+    fontFamily: typography.bold
   },
   chart: {
     borderRadius: 18
@@ -367,7 +369,7 @@ const styles = StyleSheet.create({
   scheduleTitle: {
     color: colors.gray900,
     fontSize: 18,
-    fontWeight: "900"
+    fontFamily: typography.heading
   },
   calendarButton: {
     width: 38,
@@ -388,7 +390,7 @@ const styles = StyleSheet.create({
   scheduleTime: {
     width: 48,
     color: colors.green800,
-    fontWeight: "900"
+    fontFamily: typography.bold
   },
   scheduleDot: {
     width: 30,
@@ -401,7 +403,7 @@ const styles = StyleSheet.create({
   scheduleText: {
     flex: 1,
     color: colors.gray900,
-    fontWeight: "800"
+    fontFamily: typography.semibold
   },
   summaryRail: {
     flexDirection: "row",
@@ -429,13 +431,13 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     color: colors.green200,
-    fontWeight: "900",
+    fontFamily: typography.bold,
     fontSize: 14
   },
   summaryValue: {
     color: colors.white,
     fontSize: 42,
-    fontWeight: "900"
+    fontFamily: typography.display
   },
   summaryStack: {
     width: 118,
@@ -456,6 +458,6 @@ const styles = StyleSheet.create({
   summarySmallValue: {
     color: colors.gray900,
     fontSize: 18,
-    fontWeight: "900"
+    fontFamily: typography.display
   }
 });

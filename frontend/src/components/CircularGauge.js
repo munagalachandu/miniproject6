@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { colors } from "../theme/colors";
+import { typography } from "../theme/typography";
 
 const SIZE = 132;
 const STROKE = 14;
@@ -60,12 +61,12 @@ const styles = StyleSheet.create({
   value: {
     color: colors.gray900,
     fontSize: 27,
-    fontWeight: "900"
+    fontFamily: typography.display
   },
   label: {
     color: colors.gray500,
     fontSize: 11,
-    fontWeight: "800",
+    fontFamily: typography.bold,
     marginTop: 2
   }
 });

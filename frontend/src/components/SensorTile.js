@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../theme/colors";
+import { typography } from "../theme/typography";
 
 export default function SensorTile({ title, value, unit, icon, accent, compact }) {
   return (
@@ -53,16 +54,16 @@ const styles = StyleSheet.create({
   title: {
     color: colors.gray700,
     fontSize: 12,
-    fontWeight: "800"
+    fontFamily: typography.bold
   },
   value: {
     color: colors.gray900,
     fontSize: 27,
-    fontWeight: "900"
+    fontFamily: typography.display
   },
   unit: {
     color: colors.gray500,
     fontSize: 13,
-    fontWeight: "800"
+    fontFamily: typography.bold
   }
 });

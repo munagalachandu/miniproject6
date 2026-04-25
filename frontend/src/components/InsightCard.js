@@ -3,10 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors } from "../theme/colors";
+import { typography } from "../theme/typography";
 
 export default function InsightCard({ insights, featured }) {
   const CardShell = featured ? LinearGradient : View;
-  const shellProps = featured ? { colors: [colors.green850, colors.green700] } : {};
+  const shellProps = featured ? { colors: [colors.green800, colors.green500] } : {};
 
   return (
     <CardShell {...shellProps} style={[styles.card, featured && styles.featuredCard]}>
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: "900",
+    fontFamily: typography.heading,
     color: colors.gray900
   },
   featureTitle: {
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
   subtitle: {
     color: colors.gray500,
     fontSize: 12,
+    fontFamily: typography.medium,
     marginTop: 2
   },
   featureSubtitle: {
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
   },
   featureItem: {
     color: colors.white,
-    fontWeight: "700"
+    fontFamily: typography.semibold
   },
   actionRow: {
     flexDirection: "row",
@@ -150,13 +152,14 @@ const styles = StyleSheet.create({
   },
   actionText: {
     color: colors.green900,
-    fontWeight: "900",
+    fontFamily: typography.black,
     fontSize: 12
   },
   item: {
     flex: 1,
     color: colors.gray700,
-    lineHeight: 21
+    lineHeight: 21,
+    fontFamily: typography.body
   },
   factBox: {
     marginTop: 8,
@@ -167,12 +170,13 @@ const styles = StyleSheet.create({
     borderColor: colors.gray200
   },
   factTitle: {
-    fontWeight: "900",
+    fontFamily: typography.bold,
     color: colors.green800,
     marginBottom: 6
   },
   fact: {
     color: colors.gray700,
-    lineHeight: 20
+    lineHeight: 20,
+    fontFamily: typography.body
   }
 });

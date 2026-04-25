@@ -5,6 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { savePlantProfile, sendSampleSensorData } from "../api/plantApi";
 import { colors } from "../theme/colors";
+import { typography } from "../theme/typography";
 
 export default function PlantSetupScreen() {
   const [plantName, setPlantName] = useState("Mint");
@@ -61,7 +62,7 @@ export default function PlantSetupScreen() {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <LinearGradient colors={[colors.green850, colors.green700]} style={styles.header}>
+      <LinearGradient colors={[colors.green800, colors.green500]} style={styles.header}>
         <View style={styles.headerIcon}>
           <Ionicons name="leaf" size={28} color={colors.white} />
         </View>
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 31,
-    fontWeight: "900",
+    fontFamily: typography.display,
     color: colors.white,
     marginTop: 14
   },
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     color: colors.green200,
     lineHeight: 21,
     marginTop: 8,
-    fontWeight: "600"
+    fontFamily: typography.semibold
   },
   form: {
     marginTop: 18,
@@ -160,12 +161,12 @@ const styles = StyleSheet.create({
   formTitle: {
     color: colors.gray900,
     fontSize: 18,
-    fontWeight: "900",
+    fontFamily: typography.heading,
     marginBottom: 6
   },
   label: {
     color: colors.gray700,
-    fontWeight: "800",
+    fontFamily: typography.bold,
     marginBottom: 8,
     marginTop: 12
   },
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray100,
     paddingHorizontal: 16,
     color: colors.gray900,
-    fontWeight: "700"
+    fontFamily: typography.semibold
   },
   primaryButton: {
     height: 56,
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: colors.white,
-    fontWeight: "900",
+    fontFamily: typography.black,
     fontSize: 16
   },
   secondaryButton: {
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: colors.green800,
-    fontWeight: "900",
+    fontFamily: typography.black,
     fontSize: 16
   }
 });

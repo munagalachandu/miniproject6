@@ -9,6 +9,7 @@ import PlantAvatar from "../components/PlantAvatar";
 import InsightCard from "../components/InsightCard";
 import { getSensorData } from "../api/plantApi";
 import { colors } from "../theme/colors";
+import { typography } from "../theme/typography";
 
 const fallbackReading = {
   temp: 28,
@@ -76,7 +77,7 @@ export default function DashboardScreen() {
         </TouchableOpacity>
       </View>
 
-      <LinearGradient colors={[colors.green850, colors.green700]} style={styles.hero}>
+      <LinearGradient colors={[colors.green800, colors.green500]} style={styles.hero}>
         <View style={styles.heroBubbleLarge} />
         <View style={styles.heroBubbleSmall} />
         <View style={styles.heroTop}>
@@ -184,12 +185,12 @@ const styles = StyleSheet.create({
   logoText: {
     color: colors.green700,
     fontSize: 14,
-    fontWeight: "900"
+    fontFamily: typography.black
   },
   greeting: {
     color: colors.black,
     fontSize: 31,
-    fontWeight: "900",
+    fontFamily: typography.display,
     marginTop: 2
   },
   iconButton: {
@@ -262,18 +263,18 @@ const styles = StyleSheet.create({
   },
   statusPillText: {
     color: colors.white,
-    fontWeight: "800",
+    fontFamily: typography.bold,
     fontSize: 12
   },
   device: {
     color: colors.green200,
-    fontWeight: "800"
+    fontFamily: typography.bold
   },
   title: {
     color: colors.white,
     fontSize: 27,
     lineHeight: 33,
-    fontWeight: "900",
+    fontFamily: typography.display,
     marginTop: 22,
     maxWidth: 310
   },
@@ -285,12 +286,12 @@ const styles = StyleSheet.create({
   },
   heroLabel: {
     color: colors.green200,
-    fontWeight: "700",
+    fontFamily: typography.semibold,
     fontSize: 12
   },
   heroValue: {
     color: colors.white,
-    fontWeight: "900",
+    fontFamily: typography.display,
     fontSize: 18,
     textTransform: "capitalize",
     marginTop: 3
@@ -313,11 +314,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: colors.gray900,
     fontSize: 18,
-    fontWeight: "900"
+    fontFamily: typography.heading
   },
   sectionMeta: {
     color: colors.green700,
-    fontWeight: "800",
+    fontFamily: typography.bold,
     fontSize: 12
   },
   panelMosaic: {
@@ -345,13 +346,13 @@ const styles = StyleSheet.create({
   panelEyebrow: {
     color: colors.green700,
     fontSize: 11,
-    fontWeight: "900",
+    fontFamily: typography.black,
     textTransform: "uppercase"
   },
   panelTitle: {
     color: colors.gray900,
     fontSize: 17,
-    fontWeight: "900",
+    fontFamily: typography.heading,
     marginTop: 3
   },
   leafBadge: {
@@ -375,13 +376,13 @@ const styles = StyleSheet.create({
   gaugeNoteValue: {
     color: colors.green900,
     fontSize: 18,
-    fontWeight: "900",
+    fontFamily: typography.display,
     textTransform: "capitalize"
   },
   gaugeNoteText: {
     color: colors.gray700,
     fontSize: 12,
-    fontWeight: "700",
+    fontFamily: typography.semibold,
     marginTop: 3
   },
   sideStack: {
@@ -410,18 +411,18 @@ const styles = StyleSheet.create({
   },
   tankLabel: {
     color: colors.green900,
-    fontWeight: "900",
+    fontFamily: typography.heading,
     fontSize: 15
   },
   tankValue: {
     color: colors.green900,
-    fontWeight: "900",
+    fontFamily: typography.display,
     fontSize: 38,
     marginTop: 6
   },
   tankHint: {
     color: colors.gray700,
-    fontWeight: "700"
+    fontFamily: typography.semibold
   },
   tankIcon: {
     width: 60,
@@ -467,7 +468,7 @@ const styles = StyleSheet.create({
   },
   waveTitle: {
     color: colors.gray900,
-    fontWeight: "900",
+    fontFamily: typography.heading,
     fontSize: 16
   },
   waveText: {
@@ -487,12 +488,12 @@ const styles = StyleSheet.create({
   miniPanelValue: {
     color: colors.green900,
     fontSize: 22,
-    fontWeight: "900",
+    fontFamily: typography.display,
     marginTop: 8
   },
   miniPanelText: {
     color: colors.gray700,
-    fontWeight: "800",
+    fontFamily: typography.bold,
     fontSize: 12
   }
 });
