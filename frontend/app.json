@@ -17,7 +17,7 @@
       }
     },
     "extra": {
-      "apiUrl": "http://localhost:5000"
+      "apiUrl": "https://miniproject6-nfyf.onrender.com"
     },
     "plugins": [
       "expo-font"
